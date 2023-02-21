@@ -50,6 +50,7 @@ mkdir build
 cd build
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:~/anaconda3/envs/rtsp/lib/pkgconfig
 export PKG_CONFIG_LIBDIR=$PKG_CONFIG_LIBDIR:~/anaconda3/envs/rtsp/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/anaconda3/envs/rtsp/lib
 
 cmake -D WITH_CUDA=OFF -D BUILD_TIFF=ON -D BUILD_opencv_java=OFF -D WITH_OPENGL=OFF \
 -D WITH_OPENCL=OFF -D WITH_IPP=OFF -D WITH_TBB=ON -D WITH_EIGEN=ON -D WITH_V4L=ON \
@@ -73,7 +74,12 @@ make -j 32
 make install 
 ```
 
+## Credits of this solution
+All the information needed to solve this problem has been obtained from the following sources:
+* <https://stackoverflow.com/questions/57590264/capturing-rtp-timestamps>
+* <https://github.com/bytedeco/javacpp-presets/issues/374>
 
+In this last source we found a doc document with a detailed step by step explanation. In the first post there are missing parts. I copied the document in this repository [OpenCV.FFmpeg.Changes.docx](here)
 
 ## OpenCV: Open Source Computer Vision Library
 
