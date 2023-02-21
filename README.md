@@ -1,3 +1,16 @@
+# OpenCV RTSP:
+
+This repository if a fork of the original opencv <https://github.com/opencv/opencv>
+that adds the functionalty of extracting timestamps from rtsp streams.
+The patches have been added to the tagged version n3.2.3 of opencv. 
+Work needs to be done to incorportate this changes to newer versions.
+
+In order to get timestamps from libavcodec it is also required to 
+link opencv agaist a patched version of ffmpeg which can be obtained 
+in <https://github.com/alalbiol/FFMpeg_RTSP>
+
+
+
 ## OpenCV: Open Source Computer Vision Library
 
 ### Resources
