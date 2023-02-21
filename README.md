@@ -37,7 +37,7 @@ This can be done as follows, in a separate folder:
 ```bash
 git checkout  git@github.com:alalbiol/FFMpeg_RTSP.git 
 cd FFMpeg_RTSP 
-./configure --prefix=/home/alalbiol/anaconda3/envs/rtsp
+./configure --prefix=/home/alalbiol/anaconda3/envs/rtsp --enable-shared
 make -j 32
 make install
 
@@ -48,6 +48,9 @@ Finally we can install opencv. This can be done as follows, get into the opencv 
 ```bash
 mkdir build
 cd build
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:~/anaconda3/envs/rtsp/lib/pkgconfig
+export PKG_CONFIG_LIBDIR=$PKG_CONFIG_LIBDIR:~/anaconda3/envs/rtsp/lib
+
 cmake -D WITH_CUDA=OFF -D BUILD_TIFF=ON -D BUILD_opencv_java=OFF -D WITH_OPENGL=OFF \
 -D WITH_OPENCL=OFF -D WITH_IPP=OFF -D WITH_TBB=ON -D WITH_EIGEN=ON -D WITH_V4L=ON \
 -D WITH_VTK=OFF -D BUILD_TESTS=OFF -D BUILD_PERF_TESTS=OFF -D CMAKE_BUILD_TYPE=RELEASE \
@@ -57,7 +60,7 @@ cmake -D WITH_CUDA=OFF -D BUILD_TIFF=ON -D BUILD_opencv_java=OFF -D WITH_OPENGL=
 -D INSTALL_C_EXAMPLES=OFF -D INSTALL_PYTHON_EXAMPLES=OFF -D OPENCV_ENABLE_NONFREE=ON \
 -D OPENCV_GENERATE_PKGCONFIG=ON \
 -D PYTHON3_EXECUTABLE=$(which python3) -D PYTHON_DEFAULT_EXECUTABLE=$(which python3)  \
--D BUILD_EXAMPLES=OFF ..
+-D BUILD_EXAMPLES=OFF -D WITH_LAPACK=OFF ..
 
 ```
 
