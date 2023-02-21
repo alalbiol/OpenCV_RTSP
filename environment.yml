@@ -1,0 +1,5 @@
+name: rtsp
+dependencies:
+  - python=3.6
+  - numpy
+  - pkg-config
