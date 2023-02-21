@@ -47,6 +47,7 @@
 #include <assert.h>
 #include <algorithm>
 #include <limits>
+#include <cstdint>
 
 #define CALC_FFMPEG_VERSION(a,b,c) ( a<<16 | b<<8 | c )
 
@@ -411,6 +412,7 @@ struct CvCapture_FFMPEG
     double getProperty(int) const;
     bool setProperty(int, double);
     bool grabFrame();
+    uint64_t getRTPTimeStamp(void) const;
     bool retrieveFrame(int, unsigned char** data, int* step, int* width, int* height, int* cn);
 
     void init();
@@ -1091,6 +1093,11 @@ double CvCapture_FFMPEG::get_duration_sec() const
 int CvCapture_FFMPEG::get_bitrate() const
 {
     return ic->bit_rate;
+}
+
+uint64_t CvCapture_FFMPEG::getRTPTimeStamp(void) const
+{
+    return packet.rtp_ntp_time_stamp;
 }
 
 double CvCapture_FFMPEG::get_fps() const
@@ -2130,6 +2137,12 @@ double cvGetCaptureProperty_FFMPEG(CvCapture_FFMPEG* capture, int prop_id)
 {
     return capture->getProperty(prop_id);
 }
+
+uint64_t cvGetRTPTimeStamp_FFMPEG(CvCapture_FFMPEG* capture)
+{
+    return capture->getRTPTimeStamp();
+}
+
 
 int cvGrabFrame_FFMPEG(CvCapture_FFMPEG* capture)
 {

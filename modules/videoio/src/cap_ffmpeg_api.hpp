@@ -14,6 +14,7 @@ extern "C"
 #   define OPENCV_FFMPEG_API
 #endif
 
+#include <cstdint>
 enum
 {
     CV_FFMPEG_CAP_PROP_POS_MSEC=0,
@@ -35,6 +36,7 @@ OPENCV_FFMPEG_API int cvSetCaptureProperty_FFMPEG(struct CvCapture_FFMPEG* cap,
                                                   int prop, double value);
 OPENCV_FFMPEG_API int cvSetCaptureProperty_FFMPEG_2(struct CvCapture_FFMPEG_2* cap,
                                                     int prop, double value);
+OPENCV_FFMPEG_API  uint64_t cvGetRTPTimeStamp_FFMPEG(struct CvCapture_FFMPEG* capture);
 OPENCV_FFMPEG_API double cvGetCaptureProperty_FFMPEG(struct CvCapture_FFMPEG* cap, int prop);
 OPENCV_FFMPEG_API double cvGetCaptureProperty_FFMPEG_2(struct CvCapture_FFMPEG_2* cap, int prop);
 OPENCV_FFMPEG_API int cvGrabFrame_FFMPEG(struct CvCapture_FFMPEG* cap);
@@ -58,6 +60,7 @@ OPENCV_FFMPEG_API void cvReleaseVideoWriter_FFMPEG(struct CvVideoWriter_FFMPEG**
 typedef void* (*CvCreateFileCapture_Plugin)( const char* filename );
 typedef void* (*CvCreateCameraCapture_Plugin)( int index );
 typedef int (*CvGrabFrame_Plugin)( void* capture_handle );
+typedef uint64_t (*CvGetRTPTimeStamp_Plugin)(void* capture_handle);
 typedef int (*CvRetrieveFrame_Plugin)( void* capture_handle, unsigned char** data, int* step,
                                        int* width, int* height, int* cn );
 typedef int (*CvSetCaptureProperty_Plugin)( void* capture_handle, int prop_id, double value );

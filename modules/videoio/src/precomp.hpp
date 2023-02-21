@@ -60,6 +60,7 @@
 #include <limits.h>
 #include <ctype.h>
 #include <assert.h>
+#include <cstdint>
 
 #if defined WIN32 || defined WINCE
     #if !defined _WIN32_WINNT
@@ -91,6 +92,7 @@ struct CvCapture
     virtual bool grabFrame() { return true; }
     virtual IplImage* retrieveFrame(int) { return 0; }
     virtual int getCaptureDomain() { return CV_CAP_ANY; } // Return the type of the capture object: CV_CAP_VFW, etc...
+    virtual uint64_t getRTPTimeStamp() const { return 0; }
 };
 
 /*************************** CvVideoWriter structure ****************************/
@@ -176,6 +178,7 @@ namespace cv
         virtual bool retrieveFrame(int, OutputArray) = 0;
         virtual bool isOpened() const = 0;
         virtual int getCaptureDomain() { return CAP_ANY; } // Return the type of the capture object: CAP_VFW, etc...
+        virtual uint64_t getRTPTimeStamp() const { return 0; }
     };
 
     class IVideoWriter

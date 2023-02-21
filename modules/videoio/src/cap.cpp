@@ -42,6 +42,7 @@
 #include "precomp.hpp"
 #include "cap_intelperc.hpp"
 #include "cap_dshow.hpp"
+#include <cstdint>
 
 // All WinRT versions older than 8.0 should provide classes used for video support
 #if defined(WINRT) && !defined(WINRT_8_0) && defined(__cplusplus_winrt)
@@ -115,6 +116,11 @@ CV_IMPL int cvSetCaptureProperty( CvCapture* capture, int id, double value )
 CV_IMPL int cvGetCaptureDomain( CvCapture* capture)
 {
     return capture ? capture->getCaptureDomain() : 0;
+}
+
+static inline uint64_t icvGetRTPTimeStamp(const CvCapture* capture)
+{
+  return capture ? capture->getRTPTimeStamp() : 0;
 }
 
 static bool get_capture_debug_flag()
@@ -693,6 +699,41 @@ VideoCapture& VideoCapture::operator >> (Mat& image)
 
     return *this;
 }
+
+
+/**@brief Gets the upper bytes of the RTP time stamp in NTP format (seconds).
+*/
+int64 VideoCapture::getRTPTimeStampSeconds() const
+{
+    int64 seconds = 0;
+    uint64_t timestamp = 0;
+    //Get the time stamp from the capture object
+    if (!icap.empty())
+        timestamp = icap->getRTPTimeStamp();
+    else
+        timestamp = icvGetRTPTimeStamp(cap);
+    //Take the top 32 bytes of the time stamp
+    seconds = (int64)((timestamp & 0xFFFFFFFF00000000) / 0x100000000);
+    return seconds;
+}
+
+/**@brief Gets the lower bytes of the RTP time stamp in NTP format (seconds).
+*/
+int64 VideoCapture::getRTPTimeStampFraction() const
+{
+    int64 fraction = 0;
+    uint64_t timestamp = 0;
+    //Get the time stamp from the capture object
+    if (!icap.empty())
+        timestamp = icap->getRTPTimeStamp();
+    else
+        timestamp = icvGetRTPTimeStamp(cap);
+    //Take the bottom 32 bytes of the time stamp
+    fraction = (int64)((timestamp & 0xFFFFFFFF));
+    return fraction;
+}
+
+
 
 VideoCapture& VideoCapture::operator >> (UMat& image)
 {

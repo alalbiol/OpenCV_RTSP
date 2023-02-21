@@ -636,6 +636,16 @@ public:
     */
     CV_WRAP VideoCapture(int index);
 
+    /** @brief Gets the upper bytes of the RTP time stamp in NTP format (seconds).
+    */
+    CV_WRAP virtual int64 getRTPTimeStampSeconds() const;
+    
+    /** @brief Gets the lower bytes of the RTP time stamp in NTP format (fraction of seconds).
+    */
+    CV_WRAP virtual int64 getRTPTimeStampFraction() const;
+
+
+
     /** @brief Default destructor
 
     The method first calls VideoCapture::release to close the already opened file or camera.
